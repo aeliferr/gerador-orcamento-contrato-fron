@@ -36,11 +36,4 @@ jobs:
           HOST: ${{ secrets.SSH_HOST }}
         run: |
           ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
-
-      - name: Deploy to DigitalOcean
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          USER: ${{ secrets.SSH_USER }}
-          HOST: ${{ secrets.SSH_HOST }}
-        run: |
-         ssh $USER@$HOST "whoami"
+          ssh $USER@$HOST "whoami"
