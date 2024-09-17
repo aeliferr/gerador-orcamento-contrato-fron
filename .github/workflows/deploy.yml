@@ -30,4 +30,5 @@ jobs:
           USER: ${{ secrets.SSH_USER }}
           HOST: ${{ secrets.SSH_HOST }}
         run: |
-          whoami
+          cd /var/www/html
+          ./publish.sh
