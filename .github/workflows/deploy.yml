@@ -7,10 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: whoami
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/access.key
+        chmod 600 ~/.ssh/access.key
+        cat >>~/.ssh/config <<END
+        Host server
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/access.key
+          StrictHostKeyChecking no
+        END
+      env:
+        SSH_USER: ${{ secrets.USERNAME }}
+        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: ${{ secrets.HOST }}
+    - name: Running command
+      run: ssh server 'whoami'
