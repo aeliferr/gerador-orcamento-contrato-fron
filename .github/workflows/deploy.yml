@@ -1,26 +1,33 @@
-name: remote ssh command
-on: [push]
-jobs:
+name: Deploy React App
 
-  build:
-    name: Build
+on:
+  push:
+    branches:
+      - main  # Set the branch you want to deploy from
+
+jobs:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: executing remote ssh commands using password
-      run: |
-        mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ~/.ssh/access.key
-        chmod 600 ~/.ssh/access.key
-        cat >>~/.ssh/config <<END
-        Host server
-          HostName $SSH_HOST
-          User $SSH_USER
-          IdentityFile ~/.ssh/access.key
-          StrictHostKeyChecking no
-        END
-      env:
-        SSH_USER: ${{ secrets.USERNAME }}
-        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_HOST: ${{ secrets.HOST }}
-    - name: Running command
-      run: ssh $SSH_USER@$SSH_HOST 'whoami'
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify the Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to DigitalOcean
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          USER: ${{ secrets.SSH_USER }}
+          HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          rsync -avz -e "ssh -i $SSH_PRIVATE_KEY" --delete ./build/ $USER@$HOST:/var/www/html/
