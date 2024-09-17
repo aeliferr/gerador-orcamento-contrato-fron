@@ -1,36 +1,17 @@
-name: Deploy React App
-
+name: CD deploy new feature
 on:
   push:
-    branches:
+    branches: 
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  build_deploy_digitalocean:
+    runs-on: ubuntu-latest    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build
-      run: npm run build
-
-    - name: Deploy to VPS
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan 137.184.9.139 >> ~/.ssh/known_hosts
-        rsync -avz --delete ./build/ root@137.184.9.139:/var/apps/gerador-orcamento-contrato-login
-        ssh root@137.184.9.139 'sudo systemctl restart nginx'
+      - name: the deploy new feature
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: whoami
