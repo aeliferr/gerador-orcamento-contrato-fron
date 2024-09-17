@@ -30,5 +30,4 @@ jobs:
           USER: ${{ secrets.SSH_USER }}
           HOST: ${{ secrets.SSH_HOST }}
         run: |
-          /var/www/html/publish.sh
-          
+          ssh $USER@$HOST "/var/www/html/publish.sh"
