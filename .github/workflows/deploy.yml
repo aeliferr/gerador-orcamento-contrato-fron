@@ -30,4 +30,4 @@ jobs:
           USER: ${{ secrets.SSH_USER }}
           HOST: ${{ secrets.SSH_HOST }}
         run: |
-          rsync -avz -e "ssh -i $SSH_PRIVATE_KEY" --delete ./build/ $USER@$HOST:/var/www/html/
+          rsync -avz -e "ssh -i $SSH_PRIVATE_KEY" --delete ../build/ $USER@$HOST:/var/www/html/
