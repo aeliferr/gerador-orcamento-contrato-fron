@@ -23,4 +23,4 @@ jobs:
         SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SSH_HOST: ${{ secrets.HOST }}
     - name: Running command
-      run: ssh server 'whoami'
+      run: ssh $SSH_USER@$SSH_HOST 'whoami'
