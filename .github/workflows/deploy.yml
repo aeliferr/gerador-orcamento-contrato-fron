@@ -36,4 +36,4 @@ jobs:
           HOST: ${{ secrets.SSH_HOST }}
         run: |
           ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
-          ssh $USER@$HOST "whoami"
+          ssh -i ~/.ssh/id_ed25519 $USER@$HOST "whoami"
