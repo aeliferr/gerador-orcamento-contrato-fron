@@ -15,5 +15,3 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: | 
           echo "Nice Job!!!"
-
-          name: Deploy React App
