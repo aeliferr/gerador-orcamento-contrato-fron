@@ -1,3 +1,8 @@
+on:
+  push:
+    branches:
+      - main  # Set the branch you want to deploy from
+
 jobs:
   run_example_job:
     runs-on: ubuntu-latest
@@ -10,3 +15,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: | 
           echo "Nice Job!!!"
+
+          name: Deploy React App
