@@ -1,11 +1,13 @@
 // src/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,9 @@ function Login() {
         localStorage.setItem('authToken', response.data.token);
         // Redirect or handle successful login
         console.log('Login successful:', response.data);
+        navigate('/budget');
         // e.g., window.location.href = '/dashboard';
+
       } else {
         setError('No token received.');
       }
@@ -30,32 +34,35 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Login</button>
-      </form>
+    <div className='App'>
+      <div className="login-container">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Username:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className="error">{error}</p>}
+          <button type="submit">Login</button>
+        </form>
+      </div>
     </div>
   );
+
 }
 
 export default Login;
