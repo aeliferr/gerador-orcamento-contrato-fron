@@ -1,4 +1,3 @@
-// src/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -20,10 +19,7 @@ function Login() {
         // Store the token in local storage
         localStorage.setItem('authToken', response.data.token);
         // Redirect or handle successful login
-        console.log('Login successful:', response.data);
-        navigate('/budget');
-        // e.g., window.location.href = '/dashboard';
-
+        navigate('/budgets');
       } else {
         setError('No token received.');
       }
