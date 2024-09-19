@@ -10,7 +10,6 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Router>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
@@ -32,7 +31,6 @@ function App() {
             />
             {/* Add other routes */}
           </Routes>        
-        </Router>
     </AuthProvider>
     </>
   );
